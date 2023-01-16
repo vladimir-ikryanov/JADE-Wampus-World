@@ -6,30 +6,30 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public final class WampusWorld {
+public final class WumpusWorld {
 
-    public boolean isWampusAlive = true;
-    public int wampusRoomCount = 0;
+    public boolean isWumpusAlive = true;
+    public int wumpusRoomCount = 0;
 
     public final Map<Location, RoomStatus> grid = new HashMap<>();
 
-    public WampusWorld() {
+    public WumpusWorld() {
     }
 
-    public Location wampusLocation() {
+    public Location wumpusLocation() {
         int x = 0;
         int y = 0;
 
         Set<Location> keys = grid.keySet();
         for (Location roomLocation : keys) {
             RoomStatus room = grid.get(roomLocation);
-            if (room.wampus == NavigatorAgent.ROOM_STATUS_POSSIBLE) {
+            if (room.wumpus == NavigatorAgent.ROOM_STATUS_POSSIBLE) {
                 x += roomLocation.row;
                 y += roomLocation.column;
             }
         }
-        x /= wampusRoomCount;
-        y /= wampusRoomCount;
+        x /= wumpusRoomCount;
+        y /= wumpusRoomCount;
         return new Location(x, y);
     }
 }

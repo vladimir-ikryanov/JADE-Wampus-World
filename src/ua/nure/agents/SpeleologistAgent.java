@@ -36,7 +36,7 @@ public final class SpeleologistAgent extends Agent {
     }};
 
     public static String GO_INSIDE = "go_inside";
-    public static String WAMPUS_WORLD_TYPE = "wampus-world";
+    public static String WUMPUS_WORLD_TYPE = "wumpus-world";
     public static String NAVIGATOR_AGENT_TYPE = "navigator-agent";
 
     public static String WORLD_DIGGER_CONVERSATION_ID = "digger-world";
@@ -44,16 +44,16 @@ public final class SpeleologistAgent extends Agent {
 
     private final int arrowCount = 1;
 
-    private AID wampusWorld;
+    private AID wumpusWorld;
     private AID navigationAgent;
     private String currentWorldState = "";
 
     @Override
     protected void setup() {
-        addBehaviour(new WampusWorldFinder());
+        addBehaviour(new WumpusWorldFinder());
     }
 
-    private class WampusWorldFinder extends Behaviour {
+    private class WumpusWorldFinder extends Behaviour {
         private int step = 0;
 
         @Override
@@ -61,13 +61,13 @@ public final class SpeleologistAgent extends Agent {
             if (step == 0) {
                 DFAgentDescription template = new DFAgentDescription();
                 ServiceDescription sd = new ServiceDescription();
-                sd.setType(WAMPUS_WORLD_TYPE);
+                sd.setType(WUMPUS_WORLD_TYPE);
                 template.addServices(sd);
                 try {
                     DFAgentDescription[] result = DFService.search(myAgent, template);
                     if (result.length > 0) {
-                        wampusWorld = result[0].getName();
-                        myAgent.addBehaviour(new WampusWorldPerformer());
+                        wumpusWorld = result[0].getName();
+                        myAgent.addBehaviour(new WumpusWorldPerformer());
                         ++step;
                     } else {
                         try {
@@ -88,7 +88,7 @@ public final class SpeleologistAgent extends Agent {
         }
     }
 
-    private class WampusWorldPerformer extends Behaviour {
+    private class WumpusWorldPerformer extends Behaviour {
 
         private int step = 0;
         private MessageTemplate messageTemplate;
@@ -98,7 +98,7 @@ public final class SpeleologistAgent extends Agent {
             switch (step) {
                 case 0:
                     ACLMessage message = new ACLMessage(ACLMessage.CFP);
-                    message.addReceiver(wampusWorld);
+                    message.addReceiver(wumpusWorld);
                     message.setContent(GO_INSIDE);
                     message.setConversationId(WORLD_DIGGER_CONVERSATION_ID);
                     message.setReplyWith("cfp" + System.currentTimeMillis());
@@ -218,7 +218,7 @@ public final class SpeleologistAgent extends Agent {
 
         private void sendShootMessage(String instruction) {
             ACLMessage order = new ACLMessage(SHOOT_ARROW);
-            order.addReceiver(wampusWorld);
+            order.addReceiver(wumpusWorld);
             order.setContent(instruction);
             order.setConversationId(NAVIGATOR_DIGGER_CONVERSATION_ID);
             order.setReplyWith("order" + System.currentTimeMillis());
@@ -230,7 +230,7 @@ public final class SpeleologistAgent extends Agent {
 
         private void sendTakeGoldMessage() {
             ACLMessage order = new ACLMessage(TAKE_GOLD);
-            order.addReceiver(wampusWorld);
+            order.addReceiver(wumpusWorld);
             order.setContent("Take");
             order.setConversationId(NAVIGATOR_DIGGER_CONVERSATION_ID);
             order.setReplyWith("order" + System.currentTimeMillis());
@@ -242,7 +242,7 @@ public final class SpeleologistAgent extends Agent {
 
         private void sendMoveMessage(String instruction) {
             ACLMessage order = new ACLMessage(MOVE);
-            order.addReceiver(wampusWorld);
+            order.addReceiver(wumpusWorld);
             order.setContent(instruction);
             order.setConversationId(NAVIGATOR_DIGGER_CONVERSATION_ID);
             order.setReplyWith("order" + System.currentTimeMillis());

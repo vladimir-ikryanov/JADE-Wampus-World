@@ -7,7 +7,7 @@ public final class RoomStatus {
     public int stench;
     public int breeze;
     public int pit;
-    public int wampus;
+    public int wumpus;
     public int ok;
     public int gold;
     public int noWay;
@@ -16,7 +16,7 @@ public final class RoomStatus {
         stench = NavigatorAgent.ROOM_STATUS_NO_STATUS;
         breeze = NavigatorAgent.ROOM_STATUS_NO_STATUS;
         pit = NavigatorAgent.ROOM_STATUS_NO_STATUS;
-        wampus = NavigatorAgent.ROOM_STATUS_NO_STATUS;
+        wumpus = NavigatorAgent.ROOM_STATUS_NO_STATUS;
         ok = NavigatorAgent.ROOM_STATUS_NO_STATUS;
         gold = NavigatorAgent.ROOM_STATUS_NO_STATUS;
         noWay = NavigatorAgent.ROOM_STATUS_NO_STATUS;
@@ -24,8 +24,8 @@ public final class RoomStatus {
 
     public void update(String status) {
         switch (status) {
-            case NavigatorAgent.WAMPUS:
-                wampus = NavigatorAgent.ROOM_STATUS_TRUE;
+            case NavigatorAgent.WUMPUS:
+                wumpus = NavigatorAgent.ROOM_STATUS_TRUE;
                 break;
             case NavigatorAgent.PIT:
                 pit = NavigatorAgent.ROOM_STATUS_TRUE;
@@ -55,7 +55,7 @@ public final class RoomStatus {
                 "stench=" + stench +
                 ", breeze=" + breeze +
                 ", pit=" + pit +
-                ", wampus=" + wampus +
+                ", wumpus=" + wumpus +
                 ", ok=" + ok +
                 ", gold=" + gold +
                 ", noWay=" + noWay +

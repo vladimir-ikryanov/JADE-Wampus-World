@@ -14,9 +14,9 @@ import ua.nure.Room;
 
 import java.util.*;
 
-public final class WampusWorldAgent extends Agent {
+public final class WumpusWorldAgent extends Agent {
 
-    public static String SERVICE_DESCRIPTION = "WAMPUS-WORLD";
+    public static String SERVICE_DESCRIPTION = "WUMPUS-WORLD";
 
     public static final Map<Integer, String> ROOM_CODES = new HashMap<Integer, String>() {{
         put(START, NavigatorAgent.START);
@@ -25,12 +25,12 @@ public final class WampusWorldAgent extends Agent {
         put(BUMP, NavigatorAgent.BUMP);
         put(BREEZE, NavigatorAgent.BREEZE);
         put(STENCH, NavigatorAgent.STENCH);
-        put(WAMPUS, NavigatorAgent.WAMPUS);
+        put(WUMPUS, NavigatorAgent.WUMPUS);
         put(SCREAM, NavigatorAgent.SCREAM);
     }};
 
     private static final int START = -1;
-    private static final int WAMPUS = 1;
+    private static final int WUMPUS = 1;
     private static final int PIT = 2;
     private static final int BREEZE = 3;
     private static final int STENCH = 4;
@@ -38,14 +38,14 @@ public final class WampusWorldAgent extends Agent {
     private static final int GOLD = 6;
     private static final int BUMP = 7;
 
-    // The Wampus world dimension.
+    // The Wumpus world dimension.
     private static final int NUM_OF_ROWS = 4;
     private static final int NUM_OF_COLUMNS = 4;
 
-    private Room[][] wampusMap;
+    private Room[][] wumpusMap;
     private HashMap<AID, Location> speleologists;
 
-    String nickname = "WampusWorld";
+    String nickname = "WumpusWorld";
     AID id = new AID(nickname, AID.ISLOCALNAME);
 
     @Override
@@ -60,7 +60,7 @@ public final class WampusWorldAgent extends Agent {
         agentDescription.setName(getAID());
 
         ServiceDescription serviceDescription = new ServiceDescription();
-        serviceDescription.setType(SpeleologistAgent.WAMPUS_WORLD_TYPE);
+        serviceDescription.setType(SpeleologistAgent.WUMPUS_WORLD_TYPE);
         serviceDescription.setName(SERVICE_DESCRIPTION);
         agentDescription.addServices(serviceDescription);
         try {
@@ -76,32 +76,32 @@ public final class WampusWorldAgent extends Agent {
     }
 
     private void initMap() {
-        wampusMap = new Room[NUM_OF_ROWS][NUM_OF_COLUMNS];
-        wampusMap[0][0] = new Room();
-        wampusMap[0][1] = new Room(BREEZE);
-        wampusMap[0][2] = new Room(PIT);
-        wampusMap[0][3] = new Room(BREEZE);
+        wumpusMap = new Room[NUM_OF_ROWS][NUM_OF_COLUMNS];
+        wumpusMap[0][0] = new Room();
+        wumpusMap[0][1] = new Room(BREEZE);
+        wumpusMap[0][2] = new Room(PIT);
+        wumpusMap[0][3] = new Room(BREEZE);
 
-        wampusMap[1][0] = new Room(STENCH);
-        wampusMap[1][1] = new Room();
-        wampusMap[1][2] = new Room(BREEZE);
-        wampusMap[1][3] = new Room();
+        wumpusMap[1][0] = new Room(STENCH);
+        wumpusMap[1][1] = new Room();
+        wumpusMap[1][2] = new Room(BREEZE);
+        wumpusMap[1][3] = new Room();
 
-        wampusMap[2][0] = new Room(WAMPUS);
-        wampusMap[2][1] = new Room(STENCH, GOLD);
-        wampusMap[2][2] = new Room();
-        wampusMap[2][3] = new Room(BREEZE);
+        wumpusMap[2][0] = new Room(WUMPUS);
+        wumpusMap[2][1] = new Room(STENCH, GOLD);
+        wumpusMap[2][2] = new Room();
+        wumpusMap[2][3] = new Room(BREEZE);
 
-        wampusMap[3][0] = new Room(STENCH);
-        wampusMap[3][1] = new Room();
-        wampusMap[3][2] = new Room(BREEZE);
-        wampusMap[3][3] = new Room(PIT);
+        wumpusMap[3][0] = new Room(STENCH);
+        wumpusMap[3][1] = new Room();
+        wumpusMap[3][2] = new Room(BREEZE);
+        wumpusMap[3][3] = new Room(PIT);
     }
 
     private void printMap() {
         System.out.println("Wampus world map: ");
         for (int i = 0; i < NUM_OF_ROWS; i++) {
-            System.out.println(Arrays.toString(wampusMap[i]));
+            System.out.println(Arrays.toString(wumpusMap[i]));
         }
     }
 
@@ -116,7 +116,7 @@ public final class WampusWorldAgent extends Agent {
                     speleologists.put(speleologist, new Location(0, 0));
                     ACLMessage reply = msg.createReply();
                     reply.setPerformative(ACLMessage.CONFIRM);
-                    String content = wampusMap[0][0].codes.toString();
+                    String content = wumpusMap[0][0].codes.toString();
                     System.out.println("World: Speleologist went inside at 0:0 location");
                     reply.setContent(content);
                     myAgent.send(reply);
@@ -144,25 +144,25 @@ public final class WampusWorldAgent extends Agent {
                 String answer = "";
                 if (message.equals(SpeleologistAgent.actionCodes.get(SpeleologistAgent.LOOK_DOWN))) {
                     for (int i = 0; i < row; ++i) {
-                        if (wampusMap[i][column].codes.contains(WampusWorldAgent.ROOM_CODES.get(WAMPUS))) {
+                        if (wumpusMap[i][column].codes.contains(WumpusWorldAgent.ROOM_CODES.get(WUMPUS))) {
                             answer = NavigatorAgent.SCREAM;
                         }
                     }
                 } else if (message.equals(SpeleologistAgent.actionCodes.get(SpeleologistAgent.LOOK_UP))) {
                     for (int i = row + 1; i < NUM_OF_ROWS; ++i) {
-                        if (wampusMap[i][column].codes.contains(WampusWorldAgent.ROOM_CODES.get(WAMPUS))) {
+                        if (wumpusMap[i][column].codes.contains(WumpusWorldAgent.ROOM_CODES.get(WUMPUS))) {
                             answer = NavigatorAgent.SCREAM;
                         }
                     }
                 } else if (message.equals(SpeleologistAgent.actionCodes.get(SpeleologistAgent.LOOK_LEFT))) {
                     for (int i = 0; i < column; ++i) {
-                        if (wampusMap[row][i].codes.contains(WampusWorldAgent.ROOM_CODES.get(WAMPUS))) {
+                        if (wumpusMap[row][i].codes.contains(WumpusWorldAgent.ROOM_CODES.get(WUMPUS))) {
                             answer = NavigatorAgent.SCREAM;
                         }
                     }
                 } else if (message.equals(SpeleologistAgent.actionCodes.get(SpeleologistAgent.LOOK_RIGHT))) {
                     for (int i = column + 1; i < NUM_OF_COLUMNS; ++i) {
-                        if (wampusMap[row][i].codes.contains(WampusWorldAgent.ROOM_CODES.get(WAMPUS))) {
+                        if (wumpusMap[row][i].codes.contains(WumpusWorldAgent.ROOM_CODES.get(WUMPUS))) {
                             answer = NavigatorAgent.SCREAM;
                         }
                     }
@@ -206,7 +206,7 @@ public final class WampusWorldAgent extends Agent {
                 if (row > -1 && column > -1 && row < NUM_OF_ROWS && column < NUM_OF_COLUMNS) {
                     speleologistLocation.row = row;
                     speleologistLocation.column = column;
-                    String replyMessage = wampusMap[row][column].codes.toString();
+                    String replyMessage = wumpusMap[row][column].codes.toString();
                     reply.setContent(replyMessage);
                 } else {
                     String replyMessage = String.valueOf(new ArrayList<String>() {{
@@ -232,7 +232,7 @@ public final class WampusWorldAgent extends Agent {
                 if (speleologistLocation == null) {
                     speleologists.put(speleologist, new Location());
                 } else {
-                    if (wampusMap[speleologistLocation.row][speleologistLocation.column].codes.contains(WampusWorldAgent.ROOM_CODES.get(GOLD))) {
+                    if (wumpusMap[speleologistLocation.row][speleologistLocation.column].codes.contains(WumpusWorldAgent.ROOM_CODES.get(GOLD))) {
                         ACLMessage reply = msg.createReply();
                         reply.setPerformative(SpeleologistAgent.TAKE_GOLD);
                         reply.setContent("GOLD");

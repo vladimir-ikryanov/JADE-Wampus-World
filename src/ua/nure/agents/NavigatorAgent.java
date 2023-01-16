@@ -11,7 +11,7 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import ua.nure.Location;
 import ua.nure.RoomStatus;
-import ua.nure.WampusWorld;
+import ua.nure.WumpusWorld;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +22,7 @@ public final class NavigatorAgent extends Agent {
 
     public static final String START = "start";
     public static final String EMPTY = "empty";
-    public static final String WAMPUS = "wampus";
+    public static final String WUMPUS = "wumpus";
     public static final String PIT = "pit";
     public static final String BREEZE = "breeze";
     public static final String STENCH = "stench";
@@ -34,7 +34,7 @@ public final class NavigatorAgent extends Agent {
     private static final int ROOM_STENCH = 2;
     private static final int ROOM_BREEZE = 3;
     private static final int ROOM_PIT = 4;
-    private static final int ROOM_WAMPUS = 5;
+    private static final int ROOM_WUMPUS = 5;
     private static final int ROOM_EMPTY = 6;
     private static final int ROOM_GOLD = 7;
 
@@ -55,11 +55,11 @@ public final class NavigatorAgent extends Agent {
     private int agentRow;
     private int agentColumn;
 
-    WampusWorld world;
+    WumpusWorld world;
 
     @Override
     protected void setup() {
-        world = new WampusWorld();
+        world = new WumpusWorld();
         agentWayStory = new Hashtable<>();
         agentLocation = new Hashtable<>();
 
@@ -155,7 +155,7 @@ public final class NavigatorAgent extends Agent {
         updateNeighbors(currentAgentLocation);
         if (checkingRoom.gold == ROOM_STATUS_TRUE) {
             actions = new int[] {SpeleologistAgent.TAKE_GOLD};
-        } else if (checkingRoom.wampus == ROOM_STATUS_TRUE) {
+        } else if (checkingRoom.wumpus == ROOM_STATUS_TRUE) {
             actions = new int[] {SpeleologistAgent.SHOOT_ARROW};
         } else {
             Location[] nextOkRooms = getOkNeighbors(requestAgent, currentAgentLocation);
@@ -275,11 +275,11 @@ public final class NavigatorAgent extends Agent {
         RoomStatus[] roomList = getNeighborsImaginaryRoom(requestAgentLocation);
 
         if (currentRoom.stench == NavigatorAgent.ROOM_STATUS_TRUE) {
-            world.wampusRoomCount = world.wampusRoomCount + 1;
+            world.wumpusRoomCount = world.wumpusRoomCount + 1;
             for (RoomStatus room : roomList) {
-                if (room.wampus == NavigatorAgent.ROOM_STATUS_NO_STATUS) {
+                if (room.wumpus == NavigatorAgent.ROOM_STATUS_NO_STATUS) {
                     room.ok = NavigatorAgent.ROOM_STATUS_POSSIBLE;
-                    room.wampus = NavigatorAgent.ROOM_STATUS_POSSIBLE;
+                    room.wumpus = NavigatorAgent.ROOM_STATUS_POSSIBLE;
                 }
             }
         }
@@ -294,7 +294,7 @@ public final class NavigatorAgent extends Agent {
         if (currentRoom.breeze == NavigatorAgent.ROOM_STATUS_FALSE && currentRoom.stench == NavigatorAgent.ROOM_STATUS_FALSE) {
             for (RoomStatus room : roomList) {
                 room.ok = NavigatorAgent.ROOM_STATUS_TRUE;
-                room.wampus = NavigatorAgent.ROOM_STATUS_FALSE;
+                room.wumpus = NavigatorAgent.ROOM_STATUS_FALSE;
                 room.pit = NavigatorAgent.ROOM_STATUS_FALSE;
             }
         }
