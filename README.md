@@ -1,4 +1,4 @@
-# JADE-Wampus-World
+# JADE-Wumpus-World
 
 This project represents a solution for the "Wumpus World" problem. The solution is implemented using the approach with multi-agent communication implemented using the JADE framework.
 
